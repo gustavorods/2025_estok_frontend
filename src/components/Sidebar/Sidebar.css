@@ -1,24 +1,31 @@
+/* ============================== */
+/* ESTILO BASE                    */
+/* ============================== */
 aside {
   height: 100vh;
   background: var(--color-background);
+  transition: all 0.3s ease;
 }
 
+/* Topo da sidebar (logo + menu toggle) */
 aside .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 1.4rem;
+  padding: 0 1rem;
 }
 
 aside .logo {
   display: flex;
+  align-items: center;
   gap: 0.8rem;
 }
 
 aside .logo img {
   width: 40%;
-  height: 100%;
-  margin-top: -20px;
+  height: auto;
+  margin-top: -10px;
 }
 
 aside .close {
@@ -29,6 +36,7 @@ aside .menu-toggle {
   display: none;
 }
 
+/* Lista de links */
 aside .sidebar {
   display: flex;
   flex-direction: column;
@@ -40,11 +48,10 @@ aside .sidebar {
 
 aside .sidebar a {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   color: var(--color-info-dark);
   margin-left: 2rem;
-  gap: 1rem;
-  align-items: center;
-  position: relative;
   height: 3.7rem;
   transition: all 300ms ease;
 }
@@ -66,7 +73,7 @@ aside .sidebar a.active {
 }
 
 aside .sidebar a.active::before {
-  content: ' ';
+  content: " ";
   width: 6px;
   height: 100%;
   background-color: var(--color-gray-dark);
@@ -78,94 +85,116 @@ aside .sidebar a:last-child {
   width: 100%;
 }
 
-/* Sidebar responsivo */
+/* ============================== */
+/* MODO RESPONSIVO - MOBILE/TABLET */
+/* ============================== */
 @media (max-width: 900px) {
+  /* 🔹 Transforma a sidebar em uma navbar fixa */
   aside {
-    width: 100vw;
-    height: auto;
+    width: 100%;
+    height: 60px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
     background: var(--color-background);
-    box-shadow: 0 2px 8px rgba(60,72,88,0.08);
-  }
-  aside .top {
-    flex-direction: row;
+    box-shadow: 0 2px 8px rgba(60, 72, 88, 0.08);
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 0.8rem 1.2rem;
-    margin-top: 0;
+    padding: 0 1rem;
   }
-  aside .close {
+
+  /* 🔹 Remove a logo da sidebar (ela fica só no topo) */
+  aside .logo img {
     display: none;
   }
+
+  aside .top {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 🔹 Botão hambúrguer (menu sanduíche) */
   aside .menu-toggle {
     display: flex;
     align-items: center;
     cursor: pointer;
     font-size: 2rem;
-    margin-left: 1rem;
+    margin-left: auto;
   }
+
+  /* 🔹 Sidebar vira menu lateral retrátil */
   aside .sidebar {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 70vw;
-    max-width: 320px;
+    max-width: 300px;
     height: 100vh;
     background: var(--color-background);
-    box-shadow: 0 2px 16px rgba(60,72,88,0.12);
+    box-shadow: 0 2px 16px rgba(60, 72, 88, 0.12);
     flex-direction: column;
     z-index: 200;
     padding-top: 4.2rem;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
   }
+
   aside .sidebar.open {
     display: flex;
     transform: translateX(0);
   }
+
   aside .sidebar a {
-    margin-left: 0;
-    margin-right: 0.5rem;
+    margin: 0.4rem 1rem;
     height: 2.8rem;
-    font-size: 0.95rem;
-    padding: 0 0.5rem;
-    min-width: 80px;
+    font-size: 1rem;
     justify-content: flex-start;
   }
+
   aside .sidebar a span {
     font-size: 1.3rem;
   }
+
   aside .sidebar a:last-child {
     position: static;
-    bottom: auto;
-    width: auto;
+    margin-bottom: 1rem;
   }
-  /* Overlay para fechar menu */
+
+  /* 🔹 Overlay (fundo escuro ao abrir menu) */
   .sidebar-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(40, 40, 60, 0.18);
     z-index: 150;
   }
+
   .sidebar-overlay.open {
     display: block;
   }
 }
 
+/* ============================== */
+/* AJUSTE EXTRA - TELAS PEQUENAS  */
+/* ============================== */
 @media (max-width: 600px) {
+  aside {
+    height: 55px;
+  }
+
   aside .menu-toggle {
     font-size: 1.7rem;
-    margin-left: 0.5rem;
   }
+
   aside .sidebar {
-    width: 90vw;
-    max-width: 98vw;
-    padding-top: 3.2rem;
+    width: 85vw;
+    padding-top: 3rem;
   }
 }
-    
-  
-

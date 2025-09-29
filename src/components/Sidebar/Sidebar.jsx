@@ -14,21 +14,36 @@ const Sidebar = () => {
     <aside>
       <div className="top">
         <div className="logo">
-          <img src="public/estok-logo.png" alt="Logo" />
+          <img src="/estok-logo.png" alt="Logo" />
           <h2>ESTOK</h2>
         </div>
-        {/* Ícone sanduíche só em telas pequenas */}
+
+        {/* Ícone sanduíche (hambúrguer) só em telas pequenas */}
         <div className="menu-toggle" onClick={() => setOpen(!open)}>
-          <span className="material-icons-sharp">
-            {open ? "close" : "menu"}
-          </span>
+          <span className="material-icons-sharp">menu</span>
         </div>
+
+        {/* Botão X (fecha menu em mobile) */}
+        {open && (
+          <div
+            className="close show"
+            onClick={handleClose}
+            tabIndex={0}
+            role="button"
+            aria-label="Fechar menu"
+          >
+            <span className="material-icons-sharp">close</span>
+          </div>
+        )}
       </div>
-      {/* Overlay para fechar menu */}
+
+      {/* Overlay para fechar menu ao clicar fora */}
       <div
         className={`sidebar-overlay${open ? " open" : ""}`}
         onClick={handleClose}
       />
+
+      {/* Conteúdo da sidebar */}
       <div className={`sidebar${open ? " open" : ""}`}>
         <SidebarItem
           icon="dashboard"
