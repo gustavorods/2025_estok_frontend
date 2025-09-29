@@ -11,6 +11,12 @@ const Funcionarios = () => {
   const [editUsuario, setEditUsuario] = useState("");
   const [editSenha, setEditSenha] = useState("");
 
+  // Novo estado para modal de adicionar funcionário
+  const [modalNovoOpen, setModalNovoOpen] = useState(false);
+  const [novoNome, setNovoNome] = useState("");
+  const [novoGenero, setNovoGenero] = useState("");
+  const [erroNovo, setErroNovo] = useState("");
+
   // Carregar do localStorage ao montar
   useEffect(() => {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -32,9 +38,29 @@ const Funcionarios = () => {
     setEditSenha(funcionarios[idx]?.senha || "");
   };
 
-  // Adicionar novo funcionário com campos vazios
-  const handleAdicionarFuncionario = () => {
-    setFuncionarios([...funcionarios, { usuario: "", senha: "" }]);
+  // Abrir modal de novo funcionário
+  const handleAbrirNovo = () => {
+    setNovoNome("");
+    setNovoGenero("");
+    setErroNovo("");
+    setModalNovoOpen(true);
+  };
+
+  // Adicionar novo funcionário após preencher modal
+  const handleAdicionarFuncionario = (e) => {
+    e.preventDefault();
+    if (!novoNome || !novoGenero) {
+      setErroNovo("Preencha todos os campos.");
+      return;
+    }
+    setFuncionarios([
+      ...funcionarios,
+      { usuario: novoNome, genero: novoGenero, senha: "" },
+    ]);
+    setModalNovoOpen(false);
+    setNovoNome("");
+    setNovoGenero("");
+    setErroNovo("");
   };
 
   // Salvar edição de funcionário
@@ -43,7 +69,7 @@ const Funcionarios = () => {
     if (!editUsuario || !editSenha) return;
     setFuncionarios(
       funcionarios.map((f, i) =>
-        i === opcoesModal.idx ? { usuario: editUsuario, senha: editSenha } : f
+        i === opcoesModal.idx ? { ...f, usuario: editUsuario, senha: editSenha } : f
       )
     );
     setOpcoesModal({ open: false, idx: null });
@@ -67,10 +93,7 @@ const Funcionarios = () => {
       <main className="func-main">
         <div className="func-header">
           <h2>Funcionários</h2>
-          <button
-            className="func-add-btn"
-            onClick={handleAdicionarFuncionario}
-          >
+          <button className="func-add-btn" onClick={handleAbrirNovo}>
             <span className="material-icons-sharp">person_add</span>
             Adicionar Funcionário
           </button>
@@ -108,6 +131,27 @@ const Funcionarios = () => {
                     fontSize: "0.98rem",
                   }}
                 >
+                  Gênero
+                </label>
+                <input
+                  className="func-input"
+                  type="text"
+                  value={f.genero || ""}
+                  readOnly
+                  style={{
+                    marginBottom: "0.7rem",
+                    background: "#f6f6f9",
+                    cursor: "not-allowed",
+                  }}
+                  placeholder="Gênero"
+                />
+                <label
+                  style={{
+                    fontWeight: 500,
+                    color: "#7d8da1",
+                    fontSize: "0.98rem",
+                  }}
+                >
                   Senha
                 </label>
                 <input
@@ -135,6 +179,57 @@ const Funcionarios = () => {
             <div className="func-empty">Nenhum funcionário cadastrado.</div>
           )}
         </div>
+
+        {/* Modal de adicionar novo funcionário */}
+        {modalNovoOpen && (
+          <div
+            className="func-modal-overlay"
+            onClick={() => setModalNovoOpen(false)}
+          >
+            <div className="func-modal" onClick={(e) => e.stopPropagation()}>
+              <h3>Novo Funcionário</h3>
+              <form onSubmit={handleAdicionarFuncionario}>
+                <label style={{ width: "100%", marginBottom: "0.5rem" }}>
+                  Nome
+                  <input
+                    type="text"
+                    className="func-input"
+                    value={novoNome}
+                    onChange={(e) => setNovoNome(e.target.value)}
+                    placeholder="Nome do funcionário"
+                    autoFocus
+                  />
+                </label>
+                <label style={{ width: "100%", marginBottom: "0.5rem" }}>
+                  Gênero
+                  <select
+                    className="func-input"
+                    value={novoGenero}
+                    onChange={(e) => setNovoGenero(e.target.value)}
+                  >
+                    <option value="">Selecione</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </label>
+                {erroNovo && <div className="func-erro">{erroNovo}</div>}
+                <div className="func-modal-btns">
+                  <button type="submit" className="func-btn salvar">
+                    Adicionar
+                  </button>
+                  <button
+                    type="button"
+                    className="func-btn fechar"
+                    onClick={() => setModalNovoOpen(false)}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Modal de opções do card */}
         {opcoesModal.open && (
@@ -182,6 +277,10 @@ const Funcionarios = () => {
                     <div>
                       <strong>Usuário:</strong>{" "}
                       {funcionarios[opcoesModal.idx]?.usuario}
+                    </div>
+                    <div>
+                      <strong>Gênero:</strong>{" "}
+                      {funcionarios[opcoesModal.idx]?.genero}
                     </div>
                     <div>
                       <strong>Senha:</strong>{" "}
