@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --color-primary: #7696ee;
+}
+
+body, .historico-table-container, .historico-title, .historico-search, .historico-order {
+  font-family: 'Poppins', 'Roboto', Arial, sans-serif;
+}
+
+.historico-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  padding-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.historico-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--color-dark, #363949);
+  margin-bottom: 0;
+  letter-spacing: 1px;
+}
+
+.historico-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.historico-search {
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #ececf0;
+  font-size: 1rem;
+  background: #f6f6f9;
+  color: var(--color-dark, #363949);
+  outline: none;
+  transition: border 0.2s;
+  box-shadow: 0 1px 4px rgba(60,72,88,0.04);
+}
+
+.historico-search:focus {
+  border: 1.5px solid var(--color-primary, #7380ec);
+}
+
+.historico-order {
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #ececf0;
+  font-size: 1rem;
+  background: #f6f6f9;
+  color: var(--color-dark, #363949);
+  outline: none;
+  cursor: pointer;
+  transition: border 0.2s;
+  box-shadow: 0 1px 4px rgba(60,72,88,0.04);
+}
+
+.historico-order:focus {
+  border: 1.5px solid var(--color-primary, #7380ec);
+}
+
+.historico-table-container {
+  background: var(--color-white, #fff);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(60,72,88,0.10), 0 1.5px 6px 0 rgba(60,72,88,0.04);
+  padding: 2.2rem 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.historico-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 1.08rem;
+  margin-bottom: 1.5rem;
+  table-layout: fixed;
+}
+
+.historico-table th,
+.historico-table td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+}
+
+.historico-table th {
+  position: sticky;
+  top: 0;
+  background: #f6f6f9;
+  font-weight: 700;
+  color: var(--color-dark, #363949);
+  border-bottom: 2px solid #ececf0;
+  z-index: 2;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+}
+
+.historico-table td {
+  background: #fff;
+  color: var(--color-info-dark, #7d8da1);
+  border-bottom: 1px solid #ececf0;
+  border-radius: 8px;
+  transition: background 0.2s;
+  vertical-align: middle;
+}
+
+.historico-table tbody tr {
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.historico-table tbody tr:hover {
+  background: #f4f7ff;
+}
+
+.produto-col {
+  width: 38%;
+}
+.quantidade-col {
+  width: 14%;
+  text-align: center;
+}
+.status-col {
+  width: 22%;
+  text-align: left;
+}
+.horario-col {
+  width: 26%;
+}
+.tipo-col {
+  width: 12%;
+}
+.marca-col {
+  width: 13%;
+}
+.validade-col {
+  width: 13%;
+  white-space: nowrap;
+}
+
+.produto-cell-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.produto-miniatura {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f4f4f4;
+  border: 1px solid #ececf0;
+  box-shadow: 0 1px 4px rgba(60,72,88,0.04);
+}
+
+.produto-nome {
+  font-weight: 600;
+  color: var(--color-dark, #363949);
+  font-size: 1.08rem;
+}
+
+.quantidade-cell {
+  text-align: center;
+}
+
+.quantidade-destaque {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-primary, #FFA94D);
+  background: #f6f6f9;
+  border-radius: 8px;
+  padding: 0.3rem 1rem;
+  display: inline-block;
+}
+
+.horario-cell {
+  font-family: 'Roboto Mono', 'Roboto', 'Poppins', Arial, sans-serif;
+  font-size: 1.08rem;
+  color: var(--color-info-dark, #7d8da1);
+}
+
+.tipo-cell,
+.marca-cell,
+.validade-cell {
+  font-size: 1.08rem;
+  color: var(--color-info-dark, #7d8da1);
+}
+
+.historico-empty {
+  text-align: center;
+  color: var(--color-info-dark, #7d8da1);
+  font-size: 1.1rem;
+  padding: 2rem 0;
+}
+
+.historico-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.historico-page-btn {
+  background: #f6f6f9;
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 1.3rem;
+  font-size: 1.08rem;
+  color: var(--color-info-dark, #7d8da1);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(60,72,88,0.04);
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  font-weight: 600;
+}
+
+.historico-page-btn.active,
+.historico-page-btn:hover {
+  background: var(--color-primary, #FFA94D);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* Responsivo para tablets */
+@media (max-width: 900px) {
+  .historico-header,
+  .historico-table-container {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
+  .historico-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .historico-table th,
+  .historico-table td {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.98rem;
+  }
+  .produto-miniatura {
+    width: 28px;
+    height: 28px;
+  }
+  .produto-col {
+    width: 35%;
+  }
+  .quantidade-col {
+    width: 15%;
+    text-align: center;
+  }
+  .status-col {
+    width: 25%;
+    text-align: left;
+  }
+  .horario-col {
+    width: 25%;
+  }
+  .tipo-col {
+    width: 13%;
+  }
+  .marca-col {
+    width: 13%;
+  }
+  .validade-col {
+    width: 13%;
+  }
+  .quantidade-destaque {
+    font-size: 1rem;
+    padding: 0.2rem 0.7rem;
+  }
+  .historico-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: 0.7rem;
+  }
+  .historico-search,
+  .historico-order {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+}
+
+/* Responsivo para celulares */
+@media (max-width: 600px) {
+  .historico-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 1rem;
+    width: 100vw;
+    margin: 0 auto 1rem auto;
+  }
+  .historico-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+  }
+  .historico-table-container {
+    padding: 0.7rem 0.2rem;
+    max-width: 100vw;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .historico-table th,
+  .historico-table td {
+    padding: 0.5rem 0.2rem;
+    font-size: 0.93rem;
+  }
+  .produto-miniatura {
+    width: 22px;
+    height: 22px;
+  }
+  .produto-col {
+    width: 32%;
+  }
+  .quantidade-col {
+    width: 15%;
+    text-align: center;
+  }
+  .status-col {
+    width: 28%;
+    text-align: left;
+  }
+  .horario-col {
+    width: 25%;
+  }
+  .tipo-col {
+    width: 13%;
+  }
+  .marca-col {
+    width: 13%;
+  }
+  .validade-col {
+    width: 13%;
+  }
+  .quantidade-destaque {
+    font-size: 0.93rem;
+    padding: 0.15rem 0.5rem;
+  }
+  .historico-actions {
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .historico-search,
+  .historico-order {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
+  }
+  .historico-pagination {
+    gap: 0.4rem;
+  }
+  .historico-page-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.93rem;
+  }
+}
+
+.validade-cell {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}

@@ -1,0 +1,171 @@
+aside {
+  height: 100vh;
+  background: var(--color-background);
+}
+
+aside .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.4rem;
+}
+
+aside .logo {
+  display: flex;
+  gap: 0.8rem;
+}
+
+aside .logo img {
+  width: 40%;
+  height: 100%;
+  margin-top: -20px;
+}
+
+aside .close {
+  display: none;
+}
+
+aside .menu-toggle {
+  display: none;
+}
+
+aside .sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 86vh;
+  position: relative;
+  top: 3rem;
+  background: var(--color-background);
+}
+
+aside .sidebar a {
+  display: flex;
+  color: var(--color-info-dark);
+  margin-left: 2rem;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+  height: 3.7rem;
+  transition: all 300ms ease;
+}
+
+aside .sidebar a span {
+  font-size: 1.6rem;
+  transition: all 300ms ease;
+}
+
+aside .sidebar a:hover {
+  color: var(--color-dark-variant);
+  margin-left: 2.5rem;
+}
+
+aside .sidebar a.active {
+  background-color: var(--color-silver-light);
+  color: var(--color-dark-variant);
+  margin-left: 0;
+}
+
+aside .sidebar a.active::before {
+  content: ' ';
+  width: 6px;
+  height: 100%;
+  background-color: var(--color-gray-dark);
+}
+
+aside .sidebar a:last-child {
+  position: absolute;
+  bottom: 2rem;
+  width: 100%;
+}
+
+/* Sidebar responsivo */
+@media (max-width: 900px) {
+  aside {
+    width: 100vw;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: var(--color-background);
+    box-shadow: 0 2px 8px rgba(60,72,88,0.08);
+  }
+  aside .top {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.8rem 1.2rem;
+    margin-top: 0;
+  }
+  aside .close {
+    display: none;
+  }
+  aside .menu-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+  aside .sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70vw;
+    max-width: 320px;
+    height: 100vh;
+    background: var(--color-background);
+    box-shadow: 0 2px 16px rgba(60,72,88,0.12);
+    flex-direction: column;
+    z-index: 200;
+    padding-top: 4.2rem;
+    transition: transform 0.3s;
+  }
+  aside .sidebar.open {
+    display: flex;
+    transform: translateX(0);
+  }
+  aside .sidebar a {
+    margin-left: 0;
+    margin-right: 0.5rem;
+    height: 2.8rem;
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+    min-width: 80px;
+    justify-content: flex-start;
+  }
+  aside .sidebar a span {
+    font-size: 1.3rem;
+  }
+  aside .sidebar a:last-child {
+    position: static;
+    bottom: auto;
+    width: auto;
+  }
+  /* Overlay para fechar menu */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(40, 40, 60, 0.18);
+    z-index: 150;
+  }
+  .sidebar-overlay.open {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  aside .menu-toggle {
+    font-size: 1.7rem;
+    margin-left: 0.5rem;
+  }
+  aside .sidebar {
+    width: 90vw;
+    max-width: 98vw;
+    padding-top: 3.2rem;
+  }
+}
+    
+  
+
