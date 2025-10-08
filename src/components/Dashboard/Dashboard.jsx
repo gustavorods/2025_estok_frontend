@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Card from "../Card/Card";
-import {
-  HistoricoPrateleiraCard,
-  MovimentoSkeleton,
-  DemoHistorico,
-} from "../HistoricoPrateleiraCard";
+import { HistoricoPrateleiraCard } from "../HistoricoPrateleiraCard";
 import ProdutosModal from "./ProdutosModal";
 import "./Dashboard.css";
 
-// Mock de produtos
 const reposicao = [
   { id: 1, nome: "Leite Integral", categoria: "Bebidas", marca: "Italac" },
   { id: 2, nome: "Água Mineral", categoria: "Bebidas", marca: "Crystal" },
@@ -88,7 +83,7 @@ const Dashboard = () => {
             <h2 className="mb-4 font-bold text-lg">
               Histórico de Movimentações
             </h2>
-            <HistoricoPrateleiraCard movimentos={DemoHistorico} />
+            <HistoricoPrateleiraCard />
           </div>
         </main>
       </div>
@@ -104,4 +99,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
