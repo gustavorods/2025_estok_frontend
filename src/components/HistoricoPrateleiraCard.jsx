@@ -32,7 +32,7 @@ export const HistoricoPrateleiraCard = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "RG*ly2r1CC%y",
+            "x-api-key": import.meta.env.VITE_AUTH_KEY,
           },
         }
       );
