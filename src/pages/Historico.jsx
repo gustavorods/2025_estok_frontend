@@ -147,7 +147,7 @@ const Historico = () => {
                 <th className="validade-col hide-mobile">Validade</th>
                 <th className="quantidade-col">Qtde</th>
                 <th className="status-col">Status</th>
-                <th className="horario-col">Horário</th>
+                <th className="horario-col hide-mobile">Horário</th>
                 <th className="detalhes-col show-mobile">Detalhes</th>
               </tr>
             </thead>
@@ -204,7 +204,7 @@ const Historico = () => {
                         </span>
                       </span>
                     </td>
-                    <td className="horario-cell">{item.horario}</td>
+                    <td className="horario-cell hide-mobile">{item.horario}</td>
 
                     {/* Botão de detalhes no mobile */}
                     <td className="detalhes-cell show-mobile">
@@ -248,6 +248,7 @@ const Historico = () => {
               className="modal-imagem"
             />
             <p><strong>Tipo:</strong> {modalItem.tipo}</p>
+             <p><strong>Horário:</strong> {modalItem.horario}</p>
             <p><strong>Marca:</strong> {modalItem.marca}</p>
             <p><strong>Validade:</strong> {formatValidade(modalItem.validade)}</p>
             <button className="modal-fechar" onClick={() => setModalItem(null)}>
