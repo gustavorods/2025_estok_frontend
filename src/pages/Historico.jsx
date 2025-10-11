@@ -122,7 +122,7 @@ const Historico = () => {
             <input
               type="text"
               className="historico-search"
-              placeholder="Buscar produto, tipo, marca, validade, status ou horário..."
+              placeholder="Buscar informações"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

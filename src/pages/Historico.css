@@ -234,7 +234,7 @@ body, .historico-table-container, .historico-title, .historico-search, .historic
   .produto-miniatura { width: 22px; height: 22px; }
   .produto-col { width: 32%; }
   .quantidade-col { width: 15%; }
-  .status-col { width: 28%; }
+  .status-col { width: 32%; }
   .horario-col { width: 25%; }
   .tipo-col, .marca-col, .validade-col { width: 13%; }
   .quantidade-destaque { font-size: 0.93rem; padding: 0.15rem 0.5rem; }
