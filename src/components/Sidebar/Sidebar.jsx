@@ -1,14 +1,28 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import "./Sidebar.css";
+
+
+const logout = () => {
+  localStorage.removeItem("isLoggedIn");
+  navigate("/login");
+};
+
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Fecha menu ao clicar em overlay ou opção
   const handleClose = () => setOpen(false);
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn"); // limpa o login
+    navigate("/login"); // redireciona pro login
+  };
 
   return (
     <aside>
@@ -18,12 +32,10 @@ const Sidebar = () => {
           <h2>ESTOK</h2>
         </div>
 
-        {/* Ícone sanduíche (hambúrguer) só em telas pequenas */}
         <div className="menu-toggle" onClick={() => setOpen(!open)}>
           <span className="material-icons-sharp">menu</span>
         </div>
 
-        {/* Botão X (fecha menu em mobile) */}
         {open && (
           <div
             className="close show"
@@ -37,13 +49,11 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* Overlay para fechar menu ao clicar fora */}
       <div
         className={`sidebar-overlay${open ? " open" : ""}`}
         onClick={handleClose}
       />
 
-      {/* Conteúdo da sidebar */}
       <div className={`sidebar${open ? " open" : ""}`}>
         <SidebarItem
           icon="dashboard"
@@ -88,12 +98,16 @@ const Sidebar = () => {
           onClick={handleClose}
         />
         <SidebarItem
-          icon="logout"
-          label="Sair"
-          active={location.pathname === "/"}
-          to="/"
-          onClick={handleClose}
-        />
+  icon="logout"
+  label="Sair"
+  active={false}
+  to="/"
+  onClick={() => {
+    handleClose();
+    logout();
+  }}
+/>
+
       </div>
     </aside>
   );

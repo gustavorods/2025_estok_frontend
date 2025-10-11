@@ -8,15 +8,22 @@ const LoginPage = () => {
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!usuario || !senha) {
-      setErro("Preencha usuário e senha.");
-      return;
-    }
-    setErro("");
+ const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!usuario || !senha) {
+    setErro("Preencha usuário e senha.");
+    return;
+  }
+
+  // Exemplo simples (coloca tuas credenciais fixas ou fakes por enquanto)
+  if (usuario === "admin" && senha === "1234") {
+    localStorage.setItem("isLoggedIn", "true");
     navigate("/dashboard");
-  };
+  } else {
+    setErro("Usuário ou senha incorretos.");
+  }
+};
+
 
   return (
     <div className="login-bg">
