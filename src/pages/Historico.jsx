@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Historico.css";
 
-// Novo mock com campos separados
+// Mock de dados
 const historicoMock = [
   {
     id: 1,
@@ -78,8 +78,9 @@ const Historico = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState("recentes");
+  const [modalItem, setModalItem] = useState(null);
 
-  // Filtragem atualizada para os novos campos
+  // Filtro
   const filtered = historicoMock.filter(
     (item) =>
       item.nome.toLowerCase().includes(search.toLowerCase()) ||
@@ -101,12 +102,10 @@ const Historico = () => {
   const endIdx = startIdx + PAGE_SIZE;
   const pageData = sorted.slice(startIdx, endIdx);
 
-  // Atualiza página ao buscar/ordenar
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(1);
   }, [search, order]);
 
-  // Função para formatar data para dd-mm-yyyy
   function formatValidade(dataStr) {
     if (!dataStr) return "";
     const [ano, mes, dia] = dataStr.split("-");
@@ -137,26 +136,26 @@ const Historico = () => {
             </select>
           </div>
         </div>
+
         <div className="historico-table-container">
           <table className="historico-table">
             <thead>
               <tr>
                 <th className="produto-col">Produto</th>
-                <th className="tipo-col">Tipo</th>
-                <th className="marca-col">Marca</th>
-                <th className="validade-col">Validade</th>
+                <th className="tipo-col hide-mobile">Tipo</th>
+                <th className="marca-col hide-mobile">Marca</th>
+                <th className="validade-col hide-mobile">Validade</th>
                 <th className="quantidade-col">Qtde</th>
                 <th className="status-col">Status</th>
                 <th className="horario-col">Horário</th>
+                <th className="detalhes-col show-mobile">Detalhes</th>
               </tr>
             </thead>
+
             <tbody>
               {pageData.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="historico-empty"
-                  >
+                  <td colSpan={8} className="historico-empty">
                     Nenhum registro encontrado.
                   </td>
                 </tr>
@@ -173,9 +172,9 @@ const Historico = () => {
                         <span className="produto-nome">{item.nome}</span>
                       </div>
                     </td>
-                    <td className="tipo-cell">{item.tipo}</td>
-                    <td className="marca-cell">{item.marca}</td>
-                    <td className="validade-cell">
+                    <td className="tipo-cell hide-mobile">{item.tipo}</td>
+                    <td className="marca-cell hide-mobile">{item.marca}</td>
+                    <td className="validade-cell hide-mobile">
                       {formatValidade(item.validade)}
                     </td>
                     <td className="quantidade-cell">
@@ -206,11 +205,22 @@ const Historico = () => {
                       </span>
                     </td>
                     <td className="horario-cell">{item.horario}</td>
+
+                    {/* Botão de detalhes no mobile */}
+                    <td className="detalhes-cell show-mobile">
+                      <button
+                        className="detalhes-btn"
+                        onClick={() => setModalItem(item)}
+                      >
+                        <span className="material-icons-sharp">info</span>
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
+
           <div className="historico-pagination">
             {[...Array(totalPages)].map((_, idx) => (
               <button
@@ -226,6 +236,26 @@ const Historico = () => {
           </div>
         </div>
       </main>
+
+      {/* ===== Modal ===== */}
+      {modalItem && (
+        <div className="modal-overlay" onClick={() => setModalItem(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalhes do Produto</h3>
+            <img
+              src={modalItem.imagem}
+              alt={modalItem.nome}
+              className="modal-imagem"
+            />
+            <p><strong>Tipo:</strong> {modalItem.tipo}</p>
+            <p><strong>Marca:</strong> {modalItem.marca}</p>
+            <p><strong>Validade:</strong> {formatValidade(modalItem.validade)}</p>
+            <button className="modal-fechar" onClick={() => setModalItem(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

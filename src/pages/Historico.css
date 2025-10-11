@@ -371,3 +371,119 @@ body, .historico-table-container, .historico-title, .historico-search, .historic
   font-size: 0.95rem;
   white-space: nowrap;
 }
+
+/* Esconder colunas no mobile */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+
+  .show-mobile {
+    display: table-cell;
+  }
+
+  .detalhes-btn {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.3s;
+  }
+
+  .detalhes-btn:hover {
+    transform: scale(1.1);
+    background: #5e7de0;
+  }
+
+  .detalhes-cell {
+    width: 10%;
+    text-align: center;
+  }
+}
+
+/* Esconde o botão de detalhes em telas grandes */
+@media (min-width: 769px) {
+  .show-mobile {
+    display: none;
+  }
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(54, 57, 73, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease forwards;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(60,72,88,0.2);
+  padding: 2rem;
+  width: 90%;
+  max-width: 380px;
+  animation: slideUp 0.35s ease forwards;
+  text-align: center;
+}
+
+.modal-content h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-dark, #363949);
+  margin-bottom: 1rem;
+}
+
+.modal-imagem {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.3rem 0;
+}
+
+.modal-fechar {
+  margin-top: 1.2rem;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.modal-fechar:hover {
+  background: #5e7de0;
+  transform: scale(1.05);
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
