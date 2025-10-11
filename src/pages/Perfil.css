@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  padding: 2rem; /* 🧠 dá um respiro lateral em telas grandes também */
 }
 
 .perfil-card {
@@ -22,8 +23,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto; /* mantém centralizado */
 }
 
+/* Foto */
 .perfil-foto {
   width: 110px;
   height: 110px;
@@ -43,6 +46,7 @@
   object-fit: cover;
 }
 
+/* Nome */
 .perfil-nome {
   font-size: 2.1rem;
   font-weight: 700;
@@ -52,6 +56,7 @@
   letter-spacing: 1px;
 }
 
+/* Form */
 .perfil-form {
   display: flex;
   gap: 2.2rem;
@@ -101,6 +106,7 @@
   border: 1.5px solid var(--color-primary, #FFC30A);
 }
 
+/* Botões */
 .perfil-btn {
   width: 100%;
   padding: 1rem 0;
@@ -134,34 +140,43 @@
   background: #2ecc71;
 }
 
+/* Ícone dentro do botão */
 .perfil-btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Responsivo */
+/* RESPONSIVIDADE */
 @media (max-width: 900px) {
   .perfil-container {
     grid-template-columns: 1fr;
   }
+
   .perfil-main {
-    padding: 0 0.5rem;
+    padding: 2rem 1.5rem; /* dá espaçamento lateral */
   }
+
   .perfil-card {
-    padding: 1.5rem 1rem 1.2rem 1rem;
-    max-width: 98vw;
+    padding: 1.8rem 1.5rem;
+    max-width: 95%;
   }
+
   .perfil-form {
-    gap: 1rem;
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 600px) {
-  .perfil-card {
-    padding: 1rem 0.3rem 1rem 0.3rem;
-    max-width: 100vw;
+  .perfil-main {
+    padding: 1.5rem 1rem; /* 🧠 mais folgado nas laterais */
   }
+
+  .perfil-card {
+    padding: 1.5rem 1rem;
+    max-width: 92%;
+  }
+
   .perfil-form {
     flex-direction: column;
     gap: 1.2rem;
