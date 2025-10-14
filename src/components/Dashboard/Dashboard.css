@@ -19,8 +19,12 @@ main {
     margin: 0 auto;
     padding: 0 1rem;
     gap: 0.8rem;
-  }
 
+  }
+h2{
+
+  text-align: center;
+}
   main {
     margin-top: 5rem;
     padding: 0 1.2rem; /* espaço lateral confortável */
@@ -36,7 +40,10 @@ main {
     padding: 0 0.8rem;
     gap: 0.6rem;
   }
+h2{
 
+  text-align: center;
+}
   main {
     margin-top: 4.5rem;
     padding: 0 0.9rem; /* deixa o conteúdo respirar */
