@@ -96,10 +96,14 @@ const Produtos = () => {
             </div>
           ))}
         </div>
+        <Footer />
       </main>
-      <Footer></Footer>
+     
     </div>
+    
   );
+  
 };
+
 
 export default Produtos;

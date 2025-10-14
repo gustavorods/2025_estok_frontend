@@ -358,12 +358,19 @@ const Funcionarios = () => {
                 </>
               )}
             </div>
+            
           </div>
-        )}
+          
+        )
+        }
+        
       </main>
-      <Footer></Footer>
+     <Footer></Footer>
     </div>
+    
   );
+  
 };
+
 
 export default Funcionarios;

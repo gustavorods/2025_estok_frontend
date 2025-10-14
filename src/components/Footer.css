@@ -56,4 +56,19 @@
     color: var(--estok-muted);
     font-size: 0.9rem;
   }
+  .footer {
+  width: 100%;
+  background: #f6f6f9;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+}
+
 }
