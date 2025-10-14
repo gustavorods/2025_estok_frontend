@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Funcionarios.css";
+import Footer from "../components/Footer";
 
 const STORAGE_KEY = "estok_funcionarios";
 
@@ -360,6 +361,7 @@ const Funcionarios = () => {
           </div>
         )}
       </main>
+      <Footer></Footer>
     </div>
   );
 };

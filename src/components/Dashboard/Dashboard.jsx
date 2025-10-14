@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Card from "../Card/Card";
+import Footer from "../Footer";
 import {
   HistoricoPrateleiraCard,
   MovimentoSkeleton,
@@ -90,8 +91,11 @@ const Dashboard = () => {
             </h2>
             <HistoricoPrateleiraCard movimentos={DemoHistorico} />
           </div>
+          
         </main>
+        
       </div>
+      <Footer></Footer>
       <ProdutosModal
         open={!!modalOpen}
         onClose={() => setModalOpen(null)}

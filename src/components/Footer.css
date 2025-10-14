@@ -1,0 +1,59 @@
+/* Footer.css - aparece só no mobile, no final da página */
+
+:root {
+  --estok-bg: #ffffff;
+  --estok-border: #e8eaf0;
+  --estok-muted: #7d8da1;
+  --estok-text: #262a32;
+}
+
+/* escondido por padrão (desktop/tablet) */
+.estok-footer {
+  display: none;
+}
+
+/* aparece só no mobile */
+@media (max-width: 768px) {
+  .estok-footer {
+    display: block;
+    width: 100%;
+    background: var(--estok-bg);
+    border-top: 1px solid var(--estok-border);
+    color: var(--estok-text);
+    font-family: "Poppins", "Roboto", Arial, sans-serif;
+    padding: 1rem 1rem;
+    text-align: center;
+    margin-top: 2rem; /* dá um respiro do conteúdo acima */
+  }
+
+  .estok-footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .estok-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .estok-logo__mark {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--estok-text);
+  }
+
+  .estok-logo__year {
+    font-size: 0.9rem;
+    color: var(--estok-muted);
+    font-weight: 600;
+  }
+
+  .estok-copy {
+    color: var(--estok-muted);
+    font-size: 0.9rem;
+  }
+}

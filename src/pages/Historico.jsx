@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Historico.css";
+import Footer from "../components/Footer";
 
 // Mock de dados
 const historicoMock = [
@@ -233,8 +234,9 @@ const Historico = () => {
                 {idx + 1}
               </button>
             ))}
-          </div>
+          </div><Footer></Footer>
         </div>
+        
       </main>
 
       {/* ===== Modal ===== */}
@@ -258,7 +260,9 @@ const Historico = () => {
         </div>
       )}
     </div>
+    
   );
+  
 };
 
 export default Historico;

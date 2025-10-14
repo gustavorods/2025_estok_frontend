@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Produtos.css";
+import Footer from "../components/Footer";
 
 // Mock de produtos
 const produtos = [
@@ -96,6 +97,7 @@ const Produtos = () => {
           ))}
         </div>
       </main>
+      <Footer></Footer>
     </div>
   );
 };
