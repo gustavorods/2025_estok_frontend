@@ -1,37 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Card from "../Card/Card";
 import { HistoricoPrateleiraCard } from "../HistoricoPrateleiraCard";
 import ProdutosModal from "./ProdutosModal";
 import "./Dashboard.css";
-
-const reposicao = [
-  { id: 1, nome: "Leite Integral", categoria: "Bebidas", marca: "Italac" },
-  { id: 2, nome: "Água Mineral", categoria: "Bebidas", marca: "Crystal" },
-  { id: 3, nome: "Arroz Branco", categoria: "Grãos", marca: "Tio João" },
-];
-
-const criticos = [
-  { id: 1, nome: "Feijão Carioca", categoria: "Grãos", marca: "Kicaldo" },
-  { id: 2, nome: "Óleo de Soja", categoria: "Óleos", marca: "Liza" },
-];
-
-const vencidos = [
-  {
-    id: 1,
-    nome: "Iogurte Natural",
-    categoria: "Laticínios",
-    marca: "Nestlé",
-    validade: "10/06/2024",
-  },
-  {
-    id: 2,
-    nome: "Pão de Forma",
-    categoria: "Padaria",
-    marca: "Wickbold",
-    validade: "09/06/2024",
-  },
-];
 
 const modalTitles = {
   reposicao: "Produtos precisando de reposição",
@@ -41,11 +13,80 @@ const modalTitles = {
 
 const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(null);
+  const [stockData, setStockData] = useState({
+    lowStock: [],
+    mediumStock: [],
+    highStock: [],
+    expired: [],
+  });
+  const [loading, setLoading] = useState(true);
 
+  // 🔹 Busca os dados da API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://two025-estok-backend.onrender.com/api/estok/product/get-product-status",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": import.meta.env.VITE_AUTH_KEY,
+            },
+          }
+        );
+
+        if (!response.ok) throw new Error("Erro ao buscar dados do estoque");
+
+        const data = await response.json();
+
+        // 🔹 Formata os dados (adiciona um id e ajusta validade)
+        const format = (list) =>
+          list.map((p, index) => ({
+            id: index + 1,
+            produto: p.produto,
+            tipo: p.tipo,
+            marca: p.marca,
+            qtd_max: p.qtd_max,
+            qtd_atual: p.qtd_atual,
+            validade: p.validade
+              ? new Date(p.validade).toLocaleDateString("pt-BR")
+              : "-",
+          }));
+
+        setStockData({
+          lowStock: format(data.lowStock || []),
+          mediumStock: format(data.mediumStock || []),
+          highStock: format(data.highStock || []),
+          expired: format(data.expired || []),
+        });
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // 🔹 Define os produtos que vão pro modal
   let modalProdutos = [];
-  if (modalOpen === "reposicao") modalProdutos = reposicao;
-  if (modalOpen === "criticos") modalProdutos = criticos;
-  if (modalOpen === "vencidos") modalProdutos = vencidos;
+  if (modalOpen === "reposicao") modalProdutos = stockData.mediumStock;
+  if (modalOpen === "criticos") modalProdutos = stockData.lowStock;
+  if (modalOpen === "vencidos") modalProdutos = stockData.expired;
+
+  if (loading) {
+    return (
+      <div className="container">
+        <Sidebar />
+        <main>
+          <h2>Dashboard</h2>
+          <p>Carregando dados do estoque...</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -56,7 +97,7 @@ const Dashboard = () => {
           <div className="insights">
             <Card
               icon="two_pager_store"
-              value="12"
+              value={stockData.mediumStock.length}
               title="Produtos precisando de reposição"
               buttonLabel="Ver produtos"
               className="reposicao"
@@ -64,7 +105,7 @@ const Dashboard = () => {
             />
             <Card
               icon="two_pager_store"
-              value="08"
+              value={stockData.lowStock.length}
               title="Produtos com nível crítico de estoque"
               buttonLabel="Ver produtos"
               className="atencao"
@@ -72,13 +113,14 @@ const Dashboard = () => {
             />
             <Card
               icon="two_pager_store"
-              value="05"
+              value={stockData.expired.length}
               title="Produtos próximos do vencimento"
               buttonLabel="Ver validade"
               className="vencimento"
               onButtonClick={() => setModalOpen("vencidos")}
             />
           </div>
+
           <div className="mt-8 historico-margin-top">
             <h2 className="mb-4 font-bold text-lg">
               Histórico de Movimentações
@@ -87,6 +129,7 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
+
       <ProdutosModal
         open={!!modalOpen}
         onClose={() => setModalOpen(null)}
