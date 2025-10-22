@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Historico.css";
+import Footer from "../components/Footer";
 
 const PAGE_SIZE = 4;
 
@@ -88,7 +89,6 @@ const Historico = () => {
     setPage(1);
   }, [search, order]);
 
-  // Função para formatar data para dd-mm-yyyy
   function formatValidade(dataStr) {
     if (!dataStr) return "";
     const [ano, mes, dia] = dataStr.split("-");
@@ -210,7 +210,7 @@ const Historico = () => {
             <input
               type="text"
               className="historico-search"
-              placeholder="Buscar produto, tipo, marca, validade, status ou horário..."
+              placeholder="Buscar informações"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -303,8 +303,31 @@ const Historico = () => {
           </div>
         )}
       </main>
+
+      {/* ===== Modal ===== */}
+      {modalItem && (
+        <div className="modal-overlay" onClick={() => setModalItem(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalhes do Produto</h3>
+            <img
+              src={modalItem.imagem}
+              alt={modalItem.nome}
+              className="modal-imagem"
+            />
+            <p><strong>Tipo:</strong> {modalItem.tipo}</p>
+             <p><strong>Horário:</strong> {modalItem.horario}</p>
+            <p><strong>Marca:</strong> {modalItem.marca}</p>
+            <p><strong>Validade:</strong> {formatValidade(modalItem.validade)}</p>
+            <button className="modal-fechar" onClick={() => setModalItem(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+    
   );
+  
 };
 
 export default Historico;

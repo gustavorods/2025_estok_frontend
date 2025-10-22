@@ -127,7 +127,9 @@ const Dashboard = () => {
             </h2>
             <HistoricoPrateleiraCard />
           </div>
+          
         </main>
+        
       </div>
 
       <ProdutosModal

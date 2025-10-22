@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import "./Produtos.css";
+import Footer from "../components/Footer";
 
 const Produtos = () => {
   const [produtos, setProdutos] = useState([]);
@@ -149,9 +150,14 @@ const Produtos = () => {
             ))
           )}
         </div>
+        <Footer />
       </main>
+     
     </div>
+    
   );
+  
 };
+
 
 export default Produtos;

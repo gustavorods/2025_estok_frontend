@@ -2,6 +2,9 @@
   padding: 2.5rem 2rem 2rem 2rem;
   background: var(--color-background, #f6f6f9);
   min-height: 100vh;
+  max-width: 1200px; /* limite máximo pro conteúdo */
+  margin: 0 auto; /* centraliza na tela */
+  box-sizing: border-box;
 }
 
 .produtos-title {
@@ -18,14 +21,29 @@
   gap: 2rem;
 }
 
+/* Tablets */
 @media (max-width: 900px) {
+  .produtos-page {
+    padding: 2rem 1.5rem; /* menos espaço, mas ainda confortável */
+    max-width: 92vw;
+  }
+
   .produtos-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.3rem;
   }
 }
+
+/* Celulares */
 @media (max-width: 600px) {
+  .produtos-page {
+    padding: 1.5rem 1rem; /* respiro dos lados */
+    max-width: 90vw;
+  }
+
   .produtos-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
@@ -39,11 +57,12 @@
   align-items: flex-start;
   position: relative;
   min-height: 180px;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .produto-card:hover {
   box-shadow: 0 8px 32px 0 rgba(60, 72, 88, 0.14), 0 1.5px 6px 0 rgba(60, 72, 88, 0.08);
+  transform: translateY(-3px);
 }
 
 .produto-img-container {
@@ -62,7 +81,7 @@
   border-radius: 10px;
   background: #f4f4f4;
   border: 1px solid #ececf0;
-  box-shadow: 0 2px 8px rgba(60,72,88,0.04);
+  box-shadow: 0 2px 8px rgba(60, 72, 88, 0.04);
 }
 
 .produto-info {
@@ -81,12 +100,7 @@
   margin-bottom: 0.2rem;
 }
 
-.produto-categoria {
-  font-size: 1rem;
-  color: var(--color-info-dark, #7d8da1);
-  margin-bottom: 0.1rem;
-}
-
+.produto-categoria,
 .produto-marca {
   font-size: 1rem;
   color: var(--color-info-dark, #7d8da1);
@@ -107,7 +121,6 @@
   font-weight: 600;
   color: #fff;
   border: none;
-  display: inline-block;
   background: #ccc;
   box-shadow: 0 1px 4px rgba(60,72,88,0.04);
 }
@@ -120,7 +133,6 @@
   background: #f77f00;
 }
 
-/* Quantidade fixa na parte inferior direita do card */
 .produto-quantidade {
   position: absolute;
   bottom: 18px;
@@ -134,7 +146,7 @@
   text-shadow: 0 2px 8px rgba(60,72,88,0.08);
 }
 
-/* Responsivo */
+/* Ajustes intermediários */
 @media (max-width: 1200px) {
   .produto-img-container {
     flex: 0 0 90px;
@@ -154,26 +166,23 @@
   }
 }
 
+/* Tablets */
 @media (max-width: 900px) {
-  .produtos-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .produto-card {
     padding: 12px 8px 12px 8px;
     min-height: 120px;
   }
 }
 
+/* Celulares */
 @media (max-width: 600px) {
-  .produtos-grid {
-    grid-template-columns: 1fr;
-  }
   .produto-card {
     flex-direction: column;
     align-items: flex-start;
     min-height: 0;
-    padding: 8px 4px 16px 4px;
+    padding: 10px 10px 16px 10px;
   }
+
   .produto-img-container {
     margin-right: 0;
     margin-bottom: 1rem;
@@ -181,16 +190,19 @@
     height: 70px;
     justify-content: flex-start;
   }
+
   .produto-img {
     width: 70px;
     height: 70px;
     max-width: 100%;
   }
+
   .produto-quantidade {
     position: static;
     margin-top: 1rem;
-    font-size: 4rem;
+    font-size: 3rem;
     text-align: right;
     width: 100%;
   }
+  
 }
