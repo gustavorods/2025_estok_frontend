@@ -4,8 +4,9 @@ import "./Funcionarios.css";
 import Footer from "../components/Footer";
 
 const STORAGE_KEY = "estok_funcionarios";
-const API_URL = "https://two025-estok-backend.onrender.com/api/estok/employee/create-employee";
-// coloque sua chave em .env como REACT_APP_API_KEY ou substitua abaixo
+const API_CREATE = "https://two025-estok-backend.onrender.com/api/estok/employee/create-employee";
+const API_GET = "https://two025-estok-backend.onrender.com/api/estok/employee/get-employees";
+// coloque sua chave em .env como VITE_AUTH_KEY ou substitua abaixo
 const API_KEY = import.meta.env.VITE_AUTH_KEY;
 
 const validateEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
@@ -19,6 +20,8 @@ const passwordChecks = (pwd) => ({
 
 const Funcionarios = () => {
   const [funcionarios, setFuncionarios] = useState([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [listError, setListError] = useState("");
 
   // estados apenas para adicionar
   const [modalNovoOpen, setModalNovoOpen] = useState(false);
@@ -33,12 +36,80 @@ const Funcionarios = () => {
   const [novoStatusMsg, setNovoStatusMsg] = useState("");
   const [novoStatusOk, setNovoStatusOk] = useState(null); // null = nada, true = sucesso, false = erro
 
+  // Carrega do servidor ao entrar na página
   useEffect(() => {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (data) setFuncionarios(JSON.parse(data));
+    let mounted = true;
+
+    const loadFromCache = () => {
+      const data = localStorage.getItem(STORAGE_KEY);
+      if (data) {
+        try {
+          const parsed = JSON.parse(data);
+          setFuncionarios(parsed);
+        } catch (e) {
+          console.warn("Erro ao parsear cache:", e);
+        }
+      }
+    };
+
+    const fetchFuncionarios = async () => {
+      setListLoading(true);
+      setListError("");
+      try {
+        const res = await fetch(API_GET, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // se sua API exige x-api-key no GET, descomente a linha abaixo
+            ...(API_KEY ? { "x-api-key": API_KEY } : {}),
+          },
+        });
+
+        const ct = res.headers.get("content-type") || "";
+        const body = ct.includes("application/json") ? await res.json() : null;
+
+        if (!res.ok) {
+          const errMsg = (body && (body.error || body.message)) || `Erro ${res.status}`;
+          throw new Error(errMsg);
+        }
+
+        // body esperado: { status: true, data: [ { id, nome, email, senha, cod_genero }, ... ] }
+        const items = Array.isArray(body?.data) ? body.data : [];
+        const mapped = items.map((it) => ({
+          id: it.id,
+          usuario: it.nome ?? it.name ?? "",
+          genero:
+            // se a API retorna cod_genero, traduz para label simples; ajuste conforme necessário
+            it.cod_genero === 1 ? "Masculino" : it.cod_genero === 2 ? "Feminino" : it.cod_genero === 3 ? "Outro" : it.genero ?? it.gender_name ?? "",
+          email: it.email ?? "",
+          senha: it.senha ?? "",
+        }));
+
+        if (mounted) {
+          setFuncionarios(mapped);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
+        }
+      } catch (err) {
+        console.error("Erro ao carregar funcionários:", err);
+        if (mounted) {
+          setListError(err.message || "Erro ao carregar funcionários.");
+        }
+      } finally {
+        if (mounted) setListLoading(false);
+      }
+    };
+
+    // primeiro tenta mostrar cache rápido, mas sempre busca do servidor
+    loadFromCache();
+    fetchFuncionarios();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
+    // mantém cache atualizado sempre que funcionarios mudar
     localStorage.setItem(STORAGE_KEY, JSON.stringify(funcionarios));
   }, [funcionarios]);
 
@@ -82,11 +153,11 @@ const Funcionarios = () => {
 
     setNovoLoading(true);
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(API_CREATE, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": API_KEY,
+          ...(API_KEY ? { "x-api-key": API_KEY } : {}),
         },
         body: JSON.stringify(payload),
       });
@@ -96,10 +167,18 @@ const Funcionarios = () => {
 
       if (res.ok) {
         // sucesso: adiciona localmente e mostra mensagem verde
-        setFuncionarios((prev) => [
-          ...prev,
-          { usuario: novoNome, genero: novoGenero, email: novoEmail, senha: novoSenha },
-        ]);
+        const newItem = {
+          id: body?.data?.id ?? Date.now(),
+          usuario: novoNome,
+          genero: novoGenero,
+          email: novoEmail,
+          senha: novoSenha,
+        };
+        setFuncionarios((prev) => {
+          const updated = [...prev, newItem];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+          return updated;
+        });
         setNovoStatusOk(true);
         setNovoStatusMsg(
           typeof body === "string" ? body || "Funcionário criado com sucesso." : body.message || "Funcionário criado com sucesso."
@@ -109,6 +188,7 @@ const Funcionarios = () => {
         setNovoGenero("");
         setNovoEmail("");
         setNovoSenha("");
+        // fecha modal se quiser: setModalNovoOpen(false);
       } else {
         // erro: mostra mensagem vermelha com o erro retornado (se houver)
         setNovoStatusOk(false);
@@ -138,9 +218,12 @@ const Funcionarios = () => {
           </button>
         </div>
 
+        {listLoading && <div style={{ padding: "1rem" }}>Carregando funcionários...</div>}
+        {listError && <div className="func-erro" style={{ marginBottom: "1rem" }}>{listError}</div>}
+
         <div className="func-cards">
           {funcionarios.map((f, idx) => (
-            <div className="func-card" key={idx}>
+            <div className="func-card" key={f.id ?? idx}>
               <div className="func-nome">
                 <label style={{ fontWeight: 500, color: "#7d8da1", fontSize: "0.98rem" }}>Usuário</label>
                 <input className="func-input" type="text" value={f.usuario} readOnly style={{ marginBottom: "0.7rem", background: "#f6f6f9" }} />
@@ -157,7 +240,7 @@ const Funcionarios = () => {
             </div>
           ))}
 
-          {funcionarios.length === 0 && <div className="func-empty">Nenhum funcionário cadastrado.</div>}
+          {funcionarios.length === 0 && !listLoading && <div className="func-empty">Nenhum funcionário cadastrado.</div>}
         </div>
 
         {modalNovoOpen && (
